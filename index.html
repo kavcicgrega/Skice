@@ -630,12 +630,6 @@ Razveljavi
 
 <script>
 
-/* =========================================
-
-   OSNOVNE SPREMENLJIVKE
-
-========================================= */
-
 const canvas =
 
 document.getElementById("canvas");
@@ -732,13 +726,9 @@ function drawGrid(){
 
         return;
 
-    const w=
+    const w=canvas.clientWidth;
 
-    canvas.clientWidth;
-
-    const h=
-
-    canvas.clientHeight;
+    const h=canvas.clientHeight;
 
     ctx.save();
 
@@ -789,12 +779,6 @@ function drawGrid(){
     ctx.restore();
 
 }
-
-/* =========================================
-
-   PRIPENJANJE NA MREŽO
-
-========================================= */
 
 function snap(value){
 
@@ -944,7 +928,7 @@ function getPosition(e){
 
 /* =========================================
 
-   RISANJE - ZAČETEK
+   ZAČETEK RISANJA
 
 ========================================= */
 
@@ -956,11 +940,7 @@ function(e){
 
     e.preventDefault();
 
-    const p=
-
-    getPosition(e);
-
-    /* TEKST */
+    const p=getPosition(e);
 
     if(tool==="text"){
 
@@ -996,8 +976,6 @@ function(e){
 
     }
 
-    /* PREMIKANJE */
-
     if(tool==="move"){
 
         const obj=
@@ -1018,21 +996,15 @@ function(e){
 
             movingObject=obj;
 
-            offsetX=
+            offsetX=p.x-obj.x;
 
-            p.x-obj.x;
-
-            offsetY=
-
-            p.y-obj.y;
+            offsetY=p.y-obj.y;
 
         }
 
         return;
 
     }
-
-    /* BRISANJE */
 
     if(tool==="erase"){
 
@@ -1048,23 +1020,17 @@ function(e){
 
     }
 
-    /* RISANJE */
-
     drawing=true;
 
-    startX=
+    startX=snap(p.x);
 
-    snap(p.x);
-
-    startY=
-
-    snap(p.y);
+    startY=snap(p.y);
 
 });
 
 /* =========================================
 
-   RISANJE - PREMIKANJE
+   PREMIKANJE
 
 ========================================= */
 
@@ -1076,9 +1042,7 @@ function(e){
 
     e.preventDefault();
 
-    const p=
-
-    getPosition(e);
+    const p=getPosition(e);
 
     if(
 
@@ -1114,19 +1078,15 @@ function(e){
 
         return;
 
-    const x=
+    const x=snap(p.x);
 
-    snap(p.x);
-
-    const y=
-
-    snap(p.y);
+    const y=snap(p.y);
 
     redraw();
 
     ctx.save();
 
-    ctx.strokeStyle="#555";
+    ctx.strokeStyle="#333";
 
     ctx.lineWidth=2;
 
@@ -1164,7 +1124,7 @@ function(e){
 
 /* =========================================
 
-   RISANJE - KONEC
+   KONEC RISANJA
 
 ========================================= */
 
@@ -1173,8 +1133,6 @@ canvas.addEventListener(
 "pointerup",
 
 function(e){
-
-    /* PREMIKANJE */
 
     if(moving){
 
@@ -1194,17 +1152,11 @@ function(e){
 
     drawing=false;
 
-    const p=
+    const p=getPosition(e);
 
-    getPosition(e);
+    const endX=snap(p.x);
 
-    const endX=
-
-    snap(p.x);
-
-    const endY=
-
-    snap(p.y);
+    const endY=snap(p.y);
 
     if(
 
@@ -1212,29 +1164,15 @@ function(e){
 
         Math.abs(endY-startY)<5
 
-    ){
+    )
 
         return;
-
-    }
 
     saveHistory();
 
     let label="";
 
-    /* MERA */
-
     if(tool==="measure"){
-
-        /*
-
-        Prazno polje.
-
-        Brez primera.
-
-        Brez enote.
-
-        */
 
         label=
 
@@ -1245,8 +1183,6 @@ function(e){
         );
 
     }
-
-    /* KOT */
 
     if(tool==="angle"){
 
@@ -1280,12 +1216,6 @@ function(e){
 
 });
 
-/* =========================================
-
-   ZAKLJUČEK DOTIKA
-
-========================================= */
-
 canvas.addEventListener(
 
 "pointercancel",
@@ -1302,7 +1232,7 @@ function(){
 
 /* =========================================
 
-   ISKANJE TEKSTA
+   TEKST
 
 ========================================= */
 
@@ -1318,17 +1248,13 @@ function findText(x,y){
 
     ){
 
-        const obj=
-
-        objects[i];
+        const obj=objects[i];
 
         if(obj.type!=="text")
 
             continue;
 
-        ctx.font=
-
-        "16px Arial";
+        ctx.font="16px Arial";
 
         const width=
 
@@ -1348,11 +1274,9 @@ function findText(x,y){
 
             y<=obj.y+10
 
-        ){
+        )
 
             return obj;
-
-        }
 
     }
 
@@ -1394,8 +1318,6 @@ function redraw(){
 
         ctx.lineWidth=2;
 
-        /* ČRTE */
-
         if(
 
             obj.type==="line" ||
@@ -1426,8 +1348,6 @@ function redraw(){
 
             ctx.stroke();
 
-            /* NAPIS MERE */
-
             if(obj.label){
 
                 const x=
@@ -1449,8 +1369,6 @@ function redraw(){
                     obj.label
 
                 ).width;
-
-                /* ozadje napisa */
 
                 ctx.fillStyle="white";
 
@@ -1481,8 +1399,6 @@ function redraw(){
             }
 
         }
-
-        /* TEKST */
 
         if(obj.type==="text"){
 
@@ -1524,19 +1440,11 @@ function saveHistory(){
 
 }
 
-/* =========================================
-
-   RAZVELJAVI
-
-========================================= */
-
 function undo(){
 
-    if(history.length===0){
+    if(!history.length)
 
         return;
-
-    }
 
     objects=
 
@@ -1636,10 +1544,6 @@ function eraseObject(x,y){
 
     });
 
-    /* ČE NI ČRTA,
-
-       POSKUSIMO NAJTI TEKST */
-
     if(index<0){
 
         const text=
@@ -1680,12 +1584,6 @@ function eraseObject(x,y){
 
 }
 
-/* =========================================
-
-   RAZDALJA TOČKE OD ČRTE
-
-========================================= */
-
 function pointLineDistance(
 
     px,
@@ -1702,37 +1600,21 @@ function pointLineDistance(
 
 ){
 
-    const A=
+    const A=px-x1;
 
-    px-x1;
+    const B=py-y1;
 
-    const B=
+    const C=x2-x1;
 
-    py-y1;
+    const D=y2-y1;
 
-    const C=
+    const dot=A*C+B*D;
 
-    x2-x1;
+    const len=C*C+D*D;
 
-    const D=
+    let t=dot/len;
 
-    y2-y1;
-
-    const dot=
-
-    A*C+B*D;
-
-    const len=
-
-    C*C+D*D;
-
-    let t=
-
-    dot/len;
-
-    t=
-
-    Math.max(
+    t=Math.max(
 
         0,
 
@@ -1740,13 +1622,9 @@ function pointLineDistance(
 
     );
 
-    const xx=
+    const xx=x1+t*C;
 
-    x1+t*C;
-
-    const yy=
-
-    y1+t*D;
+    const yy=y1+t*D;
 
     return Math.sqrt(
 
@@ -1778,12 +1656,6 @@ function getDrafts(){
 
 }
 
-/* =========================================
-
-   SHRANI OSNUTEK
-
-========================================= */
-
 function saveDraft(){
 
     document
@@ -1804,9 +1676,7 @@ function saveDraft(){
 
     )
 
-    .style.display=
-
-    "block";
+    .style.display="block";
 
 }
 
@@ -1838,63 +1708,37 @@ function confirmSaveDraft(){
 
     }
 
-    const drafts=
+    const drafts=getDrafts();
 
-    getDrafts();
-
-    const newDraft={
+    drafts.push({
 
         id:Date.now(),
 
         name:name,
 
-        /*
-
-        Shrani kopijo.
-
-        */
-
         objects:
 
         JSON.parse(
 
-            JSON.stringify(
-
-                objects
-
-            )
+            JSON.stringify(objects)
 
         ),
 
-        gridSize:
+        gridSize:gridSize,
 
-        gridSize,
-
-        gridVisible:
-
-        gridVisible,
+        gridVisible:gridVisible,
 
         created:
 
         new Date().toISOString()
 
-    };
-
-    drafts.push(
-
-        newDraft
-
-    );
+    });
 
     localStorage.setItem(
 
         "skiceOriginalDrafts",
 
-        JSON.stringify(
-
-            drafts
-
-        )
+        JSON.stringify(drafts)
 
     );
 
@@ -1908,12 +1752,6 @@ function confirmSaveDraft(){
 
 }
 
-/* =========================================
-
-   ODPRI OSNUTKE
-
-========================================= */
-
 function openDrafts(){
 
     renderDrafts();
@@ -1926,9 +1764,7 @@ function openDrafts(){
 
     )
 
-    .style.display=
-
-    "block";
+    .style.display="block";
 
 }
 
@@ -1942,9 +1778,7 @@ function closeDrafts(){
 
     )
 
-    .style.display=
-
-    "none";
+    .style.display="none";
 
 }
 
@@ -1952,17 +1786,13 @@ function renderDrafts(){
 
     const list=
 
-    document
-
-    .getElementById(
+    document.getElementById(
 
         "draftList"
 
     );
 
-    const drafts=
-
-    getDrafts();
+    const drafts=getDrafts();
 
     if(!drafts.length){
 
@@ -1994,9 +1824,7 @@ function renderDrafts(){
 
         );
 
-        row.className=
-
-        "draft";
+        row.className="draft";
 
         const name=
 
@@ -2006,9 +1834,7 @@ function renderDrafts(){
 
         );
 
-        name.className=
-
-        "draftName";
+        name.className="draftName";
 
         name.innerText=
 
@@ -2026,8 +1852,6 @@ function renderDrafts(){
 
         "draftButtons";
 
-        /* UPORABI */
-
         const open=
 
         document.createElement(
@@ -2036,9 +1860,7 @@ function renderDrafts(){
 
         );
 
-        open.innerText=
-
-        "Uporabi";
+        open.innerText="Uporabi";
 
         open.onclick=
 
@@ -2052,8 +1874,6 @@ function renderDrafts(){
 
         };
 
-        /* IZBRIŠI */
-
         const del=
 
         document.createElement(
@@ -2062,9 +1882,7 @@ function renderDrafts(){
 
         );
 
-        del.innerText=
-
-        "🗑️";
+        del.innerText="🗑️";
 
         del.onclick=
 
@@ -2078,51 +1896,23 @@ function renderDrafts(){
 
         };
 
-        buttons.appendChild(
+        buttons.appendChild(open);
 
-            open
+        buttons.appendChild(del);
 
-        );
+        row.appendChild(name);
 
-        buttons.appendChild(
+        row.appendChild(buttons);
 
-            del
-
-        );
-
-        row.appendChild(
-
-            name
-
-        );
-
-        row.appendChild(
-
-            buttons
-
-        );
-
-        list.appendChild(
-
-            row
-
-        );
+        list.appendChild(row);
 
     });
 
 }
 
-/* =========================================
-
-   UPORABI OSNUTEK
-
-========================================= */
-
 function useDraft(id){
 
-    const drafts=
-
-    getDrafts();
+    const drafts=getDrafts();
 
     const draft=
 
@@ -2138,7 +1928,9 @@ function useDraft(id){
 
     /*
 
-    Naredimo DELOVNO KOPIJO.
+       Original ostane nedotaknjen.
+
+       Ustvari se delovna kopija.
 
     */
 
@@ -2162,9 +1954,7 @@ function useDraft(id){
 
     draft.gridVisible!==false;
 
-    currentDraftId=
-
-    draft.id;
+    currentDraftId=draft.id;
 
     history=[];
 
@@ -2194,12 +1984,6 @@ function useDraft(id){
 
 }
 
-/* =========================================
-
-   IZBRIŠI OSNUTEK
-
-========================================= */
-
 function deleteDraft(id){
 
     if(
@@ -2214,9 +1998,7 @@ function deleteDraft(id){
 
         return;
 
-    let drafts=
-
-    getDrafts();
+    let drafts=getDrafts();
 
     drafts=
 
@@ -2242,12 +2024,6 @@ function deleteDraft(id){
 
 }
 
-/* =========================================
-
-   ZAPRI OKNO
-
-========================================= */
-
 function closeNameModal(){
 
     document
@@ -2258,73 +2034,327 @@ function closeNameModal(){
 
     )
 
-    .style.display=
-
-    "none";
+    .style.display="none";
 
 }
 
-/* =========================================
+/* ==========================================================
 
-   SHRANI SLIKO
+   NOVO SHRANJEVANJE SLIKE
 
-========================================= */
+   ========================================================== */
 
 async function saveImage(){
-
-    /*
-
-    Za izvoz skrijemo mrežo.
-
-    */
 
     const oldGrid=
 
     gridVisible;
 
-    gridVisible=false;
+    /*
 
-    redraw();
+       Shranimo trenutno velikost platna.
 
-    try{
+    */
 
-        const blob=
+    const displayWidth=
 
-        await new Promise(
+    canvas.clientWidth;
 
-            resolve=>{
+    const displayHeight=
 
-                canvas.toBlob(
+    canvas.clientHeight;
 
-                    resolve,
+    /*
 
-                    "image/png"
+       Ustvarimo NOV canvas,
+
+       ki je 3x večji.
+
+    */
+
+    const scale=3;
+
+    const exportCanvas=
+
+    document.createElement(
+
+        "canvas"
+
+    );
+
+    exportCanvas.width=
+
+    displayWidth*scale;
+
+    exportCanvas.height=
+
+    displayHeight*scale;
+
+    const exportCtx=
+
+    exportCanvas.getContext(
+
+        "2d"
+
+    );
+
+    /*
+
+       BELO OZADJE
+
+    */
+
+    exportCtx.fillStyle=
+
+    "#ffffff";
+
+    exportCtx.fillRect(
+
+        0,
+
+        0,
+
+        exportCanvas.width,
+
+        exportCanvas.height
+
+    );
+
+    /*
+
+       Vse naslednje risanje
+
+       povečamo 3x.
+
+    */
+
+    exportCtx.scale(
+
+        scale,
+
+        scale
+
+    );
+
+    /*
+
+       Mreže pri izvozu NE rišemo.
+
+    */
+
+    objects.forEach(
+
+    function(obj){
+
+        /*
+
+           ČRNE, BOLJ DEBELE ČRTE
+
+        */
+
+        exportCtx.strokeStyle=
+
+        "#111111";
+
+        exportCtx.fillStyle=
+
+        "#111111";
+
+        exportCtx.lineWidth=
+
+        3;
+
+        /*
+
+           ČRTA / MERA / KOT
+
+        */
+
+        if(
+
+            obj.type==="line" ||
+
+            obj.type==="measure" ||
+
+            obj.type==="angle"
+
+        ){
+
+            exportCtx.beginPath();
+
+            exportCtx.moveTo(
+
+                obj.x1,
+
+                obj.y1
+
+            );
+
+            exportCtx.lineTo(
+
+                obj.x2,
+
+                obj.y2
+
+            );
+
+            exportCtx.stroke();
+
+            /*
+
+               NAPIS MERE
+
+            */
+
+            if(obj.label){
+
+                const x=
+
+                (obj.x1+obj.x2)/2;
+
+                const y=
+
+                (obj.y1+obj.y2)/2;
+
+                /*
+
+                   Večja pisava
+
+                */
+
+                exportCtx.font=
+
+                "bold 22px Arial";
+
+                const width=
+
+                exportCtx.measureText(
+
+                    obj.label
+
+                ).width;
+
+                /*
+
+                   Bela podlaga za mero
+
+                */
+
+                exportCtx.fillStyle=
+
+                "#ffffff";
+
+                exportCtx.fillRect(
+
+                    x-width/2-8,
+
+                    y-28,
+
+                    width+16,
+
+                    34
+
+                );
+
+                /*
+
+                   Črn tekst
+
+                */
+
+                exportCtx.fillStyle=
+
+                "#111111";
+
+                exportCtx.fillText(
+
+                    obj.label,
+
+                    x-width/2,
+
+                    y-3
 
                 );
 
             }
 
-        );
-
-        const file=
-
-        new File(
-
-            [blob],
-
-            "skica.png",
-
-            {
-
-                type:"image/png"
-
-            }
-
-        );
+        }
 
         /*
 
-        iPhone / iPad
+           TEKST
+
+        */
+
+        if(obj.type==="text"){
+
+            exportCtx.font=
+
+            "bold 22px Arial";
+
+            exportCtx.fillStyle=
+
+            "#111111";
+
+            exportCtx.fillText(
+
+                obj.text,
+
+                obj.x,
+
+                obj.y
+
+            );
+
+        }
+
+    });
+
+    /*
+
+       Pretvorimo v PNG.
+
+    */
+
+    const blob=
+
+    await new Promise(
+
+        resolve=>{
+
+            exportCanvas.toBlob(
+
+                resolve,
+
+                "image/png"
+
+            );
+
+        }
+
+    );
+
+    const file=
+
+    new File(
+
+        [blob],
+
+        "skica.png",
+
+        {
+
+            type:"image/png"
+
+        }
+
+    );
+
+    try{
+
+        /*
+
+           IPHONE / IPAD
 
         */
 
@@ -2356,11 +2386,19 @@ async function saveImage(){
 
         /*
 
-        Računalnik
+           RAČUNALNIK
 
         */
 
         else{
+
+            const url=
+
+            URL.createObjectURL(
+
+                blob
+
+            );
 
             const link=
 
@@ -2370,19 +2408,21 @@ async function saveImage(){
 
             );
 
+            link.href=url;
+
             link.download=
 
             "skica.png";
 
-            link.href=
+            document.body.appendChild(
 
-            URL.createObjectURL(
-
-                blob
+                link
 
             );
 
             link.click();
+
+            link.remove();
 
             setTimeout(
 
@@ -2390,7 +2430,7 @@ async function saveImage(){
 
                     URL.revokeObjectURL(
 
-                        link.href
+                        url
 
                     );
 
@@ -2418,7 +2458,9 @@ async function saveImage(){
 
     /*
 
-    Vrnemo mrežo.
+       Mrežo na zaslonu
+
+       vrnemo nazaj.
 
     */
 
