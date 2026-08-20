@@ -4,13 +4,129 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Skice</title>
+<title>Skice</title>
 
-    <link rel="stylesheet" href="style.css">
+<style>
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+body {
+
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background: #f2f2f2;
+
+    overflow: hidden;
+
+}
+
+header {
+
+    height: 55px;
+
+    background: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 12px;
+
+    border-bottom: 1px solid #ccc;
+
+}
+
+header h2 {
+
+    margin: 0;
+
+    font-size: 18px;
+
+}
+
+button {
+
+    border: none;
+
+    background: #eeeeee;
+
+    border-radius: 10px;
+
+    padding: 10px 14px;
+
+    font-size: 15px;
+
+}
+
+#canvas {
+
+    display: block;
+
+    background: white;
+
+    width: 100vw;
+
+    height: calc(100vh - 125px);
+
+    touch-action: none;
+
+}
+
+.toolbar {
+
+    height: 70px;
+
+    background: white;
+
+    border-top: 1px solid #ccc;
+
+    display: flex;
+
+    justify-content: space-around;
+
+    align-items: center;
+
+}
+
+.tool {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    background: transparent;
+
+    font-size: 12px;
+
+}
+
+.tool span {
+
+    font-size: 22px;
+
+}
+
+.active {
+
+    background: #dceaff;
+
+}
+
+</style>
 
 </head>
 
@@ -18,7 +134,17 @@
 
 <header>
 
-    <h2>Skice</h2>
+    <button onclick="newSketch()">＋</button>
+
+    <h2>Nova skica</h2>
+
+    <div>
+
+        <button onclick="undo()">↩</button>
+
+        <button onclick="printSketch()">🖨</button>
+
+    </div>
 
 </header>
 
@@ -26,11 +152,449 @@
 
 <div class="toolbar">
 
-    <button id="clearBtn">Počisti</button>
+    <button class="tool active" onclick="selectTool('line', this)">
+
+        <span>╱</span>
+
+        Črta
+
+    </button>
+
+    <button class="tool" onclick="selectTool('measure', this)">
+
+        <span>↔</span>
+
+        Mera
+
+    </button>
+
+    <button class="tool" onclick="selectTool('angle', this)">
+
+        <span>∠</span>
+
+        Kot
+
+    </button>
+
+    <button class="tool" onclick="selectTool('text', this)">
+
+        <span>T</span>
+
+        Besedilo
+
+    </button>
+
+    <button class="tool" onclick="selectTool('erase', this)">
+
+        <span>⌫</span>
+
+        Izbriši
+
+    </button>
 
 </div>
 
-<script src="app.js"></script>
+<script>
+
+const canvas = document.getElementById("canvas");
+
+const ctx = canvas.getContext("2d");
+
+let tool = "line";
+
+let drawing = false;
+
+let startX = 0;
+
+let startY = 0;
+
+let objects = [];
+
+let history = [];
+
+/* PRILAGODI CANVAS */
+
+function resizeCanvas() {
+
+    canvas.width = window.innerWidth;
+
+    canvas.height = window.innerHeight - 125;
+
+    redraw();
+
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+resizeCanvas();
+
+/* ORODJE */
+
+function selectTool(selectedTool, button) {
+
+    tool = selectedTool;
+
+    document.querySelectorAll(".tool").forEach(function(b) {
+
+        b.classList.remove("active");
+
+    });
+
+    button.classList.add("active");
+
+}
+
+/* ZAČETEK RISANJA */
+
+canvas.addEventListener("pointerdown", function(e) {
+
+    const rect = canvas.getBoundingClientRect();
+
+    startX = e.clientX - rect.left;
+
+    startY = e.clientY - rect.top;
+
+    if (tool === "text") {
+
+        const text = prompt("Vpiši besedilo:");
+
+        if (text) {
+
+            saveHistory();
+
+            objects.push({
+
+                type: "text",
+
+                x: startX,
+
+                y: startY,
+
+                text: text
+
+            });
+
+            redraw();
+
+        }
+
+        return;
+
+    }
+
+    if (tool === "erase") {
+
+        eraseObject(startX, startY);
+
+        return;
+
+    }
+
+    drawing = true;
+
+});
+
+/* RISANJE */
+
+canvas.addEventListener("pointermove", function(e) {
+
+    if (!drawing) return;
+
+    redraw();
+
+    const rect = canvas.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+
+    const y = e.clientY - rect.top;
+
+    ctx.beginPath();
+
+    ctx.moveTo(startX, startY);
+
+    ctx.lineTo(x, y);
+
+    ctx.strokeStyle = "#000";
+
+    ctx.lineWidth = 2;
+
+    ctx.stroke();
+
+});
+
+/* KONČAJ ČRTO */
+
+canvas.addEventListener("pointerup", function(e) {
+
+    if (!drawing) return;
+
+    drawing = false;
+
+    const rect = canvas.getBoundingClientRect();
+
+    const endX = e.clientX - rect.left;
+
+    const endY = e.clientY - rect.top;
+
+    if (Math.abs(endX - startX) < 5 &&
+
+        Math.abs(endY - startY) < 5) {
+
+        return;
+
+    }
+
+    saveHistory();
+
+    let label = "";
+
+    if (tool === "measure") {
+
+        label = prompt("Vpiši mero:", "7,20 m");
+
+    }
+
+    if (tool === "angle") {
+
+        label = prompt("Vpiši kot:", "30°");
+
+    }
+
+    objects.push({
+
+        type: tool,
+
+        x1: startX,
+
+        y1: startY,
+
+        x2: endX,
+
+        y2: endY,
+
+        label: label
+
+    });
+
+    redraw();
+
+});
+
+/* SHRANI ZGODOVINO */
+
+function saveHistory() {
+
+    history.push(JSON.stringify(objects));
+
+}
+
+/* RAZVELJAVI */
+
+function undo() {
+
+    if (history.length === 0) return;
+
+    objects = JSON.parse(history.pop());
+
+    redraw();
+
+}
+
+/* NOVA SKICA */
+
+function newSketch() {
+
+    if (!confirm("Izbrišem trenutno skico?")) return;
+
+    saveHistory();
+
+    objects = [];
+
+    redraw();
+
+}
+
+/* IZBRIŠI */
+
+function eraseObject(x, y) {
+
+    let closest = -1;
+
+    let distance = 20;
+
+    objects.forEach(function(obj, index) {
+
+        if (!obj.x1) return;
+
+        const d = pointLineDistance(
+
+            x,
+
+            y,
+
+            obj.x1,
+
+            obj.y1,
+
+            obj.x2,
+
+            obj.y2
+
+        );
+
+        if (d < distance) {
+
+            distance = d;
+
+            closest = index;
+
+        }
+
+    });
+
+    if (closest >= 0) {
+
+        saveHistory();
+
+        objects.splice(closest, 1);
+
+        redraw();
+
+    }
+
+}
+
+/* RAZDALJA DO ČRTE */
+
+function pointLineDistance(px, py, x1, y1, x2, y2) {
+
+    const A = px - x1;
+
+    const B = py - y1;
+
+    const C = x2 - x1;
+
+    const D = y2 - y1;
+
+    const dot = A * C + B * D;
+
+    const len = C * C + D * D;
+
+    let t = dot / len;
+
+    t = Math.max(0, Math.min(1, t));
+
+    const xx = x1 + t * C;
+
+    const yy = y1 + t * D;
+
+    return Math.sqrt(
+
+        (px - xx) ** 2 +
+
+        (py - yy) ** 2
+
+    );
+
+}
+
+/* PRIKAŽI VSE */
+
+function redraw() {
+
+    ctx.clearRect(
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+    );
+
+    objects.forEach(function(obj) {
+
+        ctx.strokeStyle = "#000";
+
+        ctx.fillStyle = "#000";
+
+        ctx.lineWidth = 2;
+
+        if (
+
+            obj.type === "line" ||
+
+            obj.type === "measure" ||
+
+            obj.type === "angle"
+
+        ) {
+
+            ctx.beginPath();
+
+            ctx.moveTo(obj.x1, obj.y1);
+
+            ctx.lineTo(obj.x2, obj.y2);
+
+            ctx.stroke();
+
+            if (obj.label) {
+
+                const centerX =
+
+                    (obj.x1 + obj.x2) / 2;
+
+                const centerY =
+
+                    (obj.y1 + obj.y2) / 2;
+
+                ctx.font = "16px Arial";
+
+                ctx.fillText(
+
+                    obj.label,
+
+                    centerX,
+
+                    centerY - 8
+
+                );
+
+            }
+
+        }
+
+        if (obj.type === "text") {
+
+            ctx.font = "16px Arial";
+
+            ctx.fillText(
+
+                obj.text,
+
+                obj.x,
+
+                obj.y
+
+            );
+
+        }
+
+    });
+
+}
+
+/* TISK / PDF */
+
+function printSketch() {
+
+    window.print();
+
+}
+
+</script>
 
 </body>
 
