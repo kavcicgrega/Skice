@@ -38,8 +38,6 @@ body {
 
 }
 
-/* ZGORNJA VRSTICA */
-
 header {
 
     height: 58px;
@@ -52,9 +50,9 @@ header {
 
     justify-content: space-between;
 
-    padding: 0 10px;
+    padding: 0 8px;
 
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #ccc;
 
 }
 
@@ -74,7 +72,7 @@ button {
 
     border-radius: 10px;
 
-    padding: 9px 12px;
+    padding: 9px 11px;
 
     font-size: 14px;
 
@@ -86,13 +84,11 @@ button:active {
 
 }
 
-/* RISALNA POVRŠINA */
-
 #canvas {
 
     display: block;
 
-    background-color: white;
+    background: white;
 
     width: 100vw;
 
@@ -102,15 +98,13 @@ button:active {
 
 }
 
-/* SPODNJA VRSTICA */
-
 .toolbar {
 
     height: 77px;
 
     background: white;
 
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid #ccc;
 
     display: flex;
 
@@ -119,8 +113,6 @@ button:active {
     align-items: center;
 
 }
-
-/* ORODJA */
 
 .tool {
 
@@ -158,8 +150,6 @@ button:active {
 
 }
 
-/* MENI MREŽE */
-
 .gridMenu {
 
     position: fixed;
@@ -186,13 +176,11 @@ button:active {
 
     display: block;
 
-    width: 120px;
+    width: 130px;
 
     margin: 5px 0;
 
 }
-
-/* INFORMACIJA */
 
 .info {
 
@@ -215,8 +203,6 @@ button:active {
     z-index: 10;
 
 }
-
-/* PRINT */
 
 @media print {
 
@@ -258,91 +244,49 @@ button:active {
 
 <header>
 
-    <button onclick="newSketch()">
+<button onclick="newSketch()">＋</button>
 
-        ＋
+<h2>SKICE</h2>
 
-    </button>
+<div>
 
-    <h2>
+<button onclick="undo()">↩</button>
 
-        SKICE
+<button onclick="openGridMenu()">▦</button>
 
-    </h2>
+<button onclick="saveImage()">📷</button>
 
-    <div>
+<button onclick="printSketch()">🖨</button>
 
-        <button onclick="undo()">
-
-            ↩
-
-        </button>
-
-        <button onclick="openGridMenu()">
-
-            ▦
-
-        </button>
-
-        <button onclick="printSketch()">
-
-            🖨
-
-        </button>
-
-    </div>
+</div>
 
 </header>
 
 <div class="info" id="info">
 
-    Mreža: 10 cm
+Mreža: 10 cm
 
 </div>
 
 <div class="gridMenu" id="gridMenu">
 
-    <b>
+<b>Razmik mreže</b>
 
-        Razmik mreže
+<button onclick="setGrid(5)">5 cm</button>
 
-    </b>
+<button onclick="setGrid(10)">10 cm</button>
 
-    <button onclick="setGrid(5)">
+<button onclick="setGrid(25)">25 cm</button>
 
-        5 cm
+<button onclick="setGrid(50)">50 cm</button>
 
-    </button>
+<button onclick="setGrid(100)">1 m</button>
 
-    <button onclick="setGrid(10)">
+<button onclick="toggleGrid()">
 
-        10 cm
+Mreža ON / OFF
 
-    </button>
-
-    <button onclick="setGrid(25)">
-
-        25 cm
-
-    </button>
-
-    <button onclick="setGrid(50)">
-
-        50 cm
-
-    </button>
-
-    <button onclick="setGrid(100)">
-
-        1 m
-
-    </button>
-
-    <button onclick="toggleGrid()">
-
-        Mreža ON/OFF
-
-    </button>
+</button>
 
 </div>
 
@@ -350,101 +294,69 @@ button:active {
 
 <div class="toolbar">
 
-    <button
+<button class="tool active"
 
-        class="tool active"
+onclick="selectTool('line',this)">
 
-        onclick="selectTool('line',this)"
+<span>╱</span>
 
-    >
+Črta
 
-        <span>╱</span>
+</button>
 
-        <small>
+<button class="tool"
 
-            Črta
+onclick="selectTool('measure',this)">
 
-        </small>
+<span>↔</span>
 
-    </button>
+Mera
 
-    <button
+</button>
 
-        class="tool"
+<button class="tool"
 
-        onclick="selectTool('measure',this)"
+onclick="selectTool('angle',this)">
 
-    >
+<span>∠</span>
 
-        <span>↔</span>
+Kot
 
-        <small>
+</button>
 
-            Mera
+<button class="tool"
 
-        </small>
+onclick="selectTool('text',this)">
 
-    </button>
+<span>T</span>
 
-    <button
+Besedilo
 
-        class="tool"
+</button>
 
-        onclick="selectTool('angle',this)"
+<button class="tool"
 
-    >
+onclick="selectTool('move',this)">
 
-        <span>∠</span>
+<span>✋</span>
 
-        <small>
+Premakni
 
-            Kot
+</button>
 
-        </small>
+<button class="tool"
 
-    </button>
+onclick="selectTool('erase',this)">
 
-    <button
+<span>⌫</span>
 
-        class="tool"
+Izbriši
 
-        onclick="selectTool('text',this)"
-
-    >
-
-        <span>T</span>
-
-        <small>
-
-            Besedilo
-
-        </small>
-
-    </button>
-
-    <button
-
-        class="tool"
-
-        onclick="selectTool('erase',this)"
-
-    >
-
-        <span>⌫</span>
-
-        <small>
-
-            Izbriši
-
-        </small>
-
-    </button>
+</button>
 
 </div>
 
 <script>
-
-/* CANVAS */
 
 const canvas =
 
@@ -454,11 +366,17 @@ const ctx =
 
 canvas.getContext("2d");
 
-/* NASTAVITVE */
-
 let tool = "line";
 
 let drawing = false;
+
+let moving = false;
+
+let movingObject = null;
+
+let offsetX = 0;
+
+let offsetY = 0;
 
 let startX = 0;
 
@@ -472,7 +390,7 @@ let objects = [];
 
 let history = [];
 
-/* PRILAGODITEV */
+/* CANVAS */
 
 function resizeCanvas() {
 
@@ -522,9 +440,7 @@ resizeCanvas();
 
 function drawGrid() {
 
-    if (!gridVisible)
-
-        return;
+    if (!gridVisible) return;
 
     const width =
 
@@ -536,9 +452,7 @@ function drawGrid() {
 
     ctx.save();
 
-    ctx.strokeStyle =
-
-    "#e4e4e4";
+    ctx.strokeStyle = "#e4e4e4";
 
     ctx.lineWidth = 1;
 
@@ -586,7 +500,7 @@ function drawGrid() {
 
 }
 
-/* PRIPENJANJE */
+/* SNAP */
 
 function snap(value) {
 
@@ -628,7 +542,7 @@ function selectTool(
 
 }
 
-/* MENI */
+/* MENI MREŽE */
 
 function openGridMenu() {
 
@@ -645,8 +559,6 @@ function openGridMenu() {
     : "block";
 
 }
-
-/* IZBIRA MREŽE */
 
 function setGrid(value) {
 
@@ -667,8 +579,6 @@ function setGrid(value) {
     redraw();
 
 }
-
-/* VKLOP / IZKLOP */
 
 function toggleGrid() {
 
@@ -702,7 +612,7 @@ function getPosition(e) {
 
 }
 
-/* ZAČETEK */
+/* POINTER DOWN */
 
 canvas.addEventListener(
 
@@ -715,6 +625,8 @@ function(e) {
     const p =
 
     getPosition(e);
+
+    /* BESEDILO */
 
     if (tool === "text") {
 
@@ -746,6 +658,38 @@ function(e) {
 
     }
 
+    /* PREMIKANJE */
+
+    if (tool === "move") {
+
+        const object =
+
+        findText(p.x,p.y);
+
+        if (object) {
+
+            saveHistory();
+
+            moving = true;
+
+            movingObject = object;
+
+            offsetX =
+
+            p.x - object.x;
+
+            offsetY =
+
+            p.y - object.y;
+
+        }
+
+        return;
+
+    }
+
+    /* BRISANJE */
+
     if (tool === "erase") {
 
         eraseObject(
@@ -768,7 +712,7 @@ function(e) {
 
 });
 
-/* MED VLEČENJEM */
+/* POINTER MOVE */
 
 canvas.addEventListener(
 
@@ -776,15 +720,39 @@ canvas.addEventListener(
 
 function(e) {
 
-    if (!drawing)
-
-        return;
-
     e.preventDefault();
 
     const p =
 
     getPosition(e);
+
+    /* PREMIKANJE TEKSTA */
+
+    if (
+
+        moving &&
+
+        movingObject
+
+    ) {
+
+        movingObject.x =
+
+        snap(p.x - offsetX);
+
+        movingObject.y =
+
+        snap(p.y - offsetY);
+
+        redraw();
+
+        return;
+
+    }
+
+    if (!drawing)
+
+        return;
 
     const x =
 
@@ -836,13 +804,25 @@ function(e) {
 
 });
 
-/* KONEC */
+/* POINTER UP */
 
 canvas.addEventListener(
 
 "pointerup",
 
 function(e) {
+
+    if (moving) {
+
+        moving = false;
+
+        movingObject = null;
+
+        redraw();
+
+        return;
+
+    }
 
     if (!drawing)
 
@@ -876,31 +856,23 @@ function(e) {
 
     let label = "";
 
+    /* MERA */
+
     if (tool === "measure") {
 
         label =
 
-        prompt(
-
-            "Vpiši mero:",
-
-            "7,20 m"
-
-        );
+        prompt("Vpiši mero:");
 
     }
+
+    /* KOT */
 
     if (tool === "angle") {
 
         label =
 
-        prompt(
-
-            "Vpiši kot:",
-
-            "30°"
-
-        );
+        prompt("Vpiši kot:");
 
     }
 
@@ -916,13 +888,73 @@ function(e) {
 
         y2: endY,
 
-        label: label
+        label: label || ""
 
     });
 
     redraw();
 
 });
+
+/* ISKANJE TEKSTA */
+
+function findText(x,y) {
+
+    for (
+
+        let i = objects.length - 1;
+
+        i >= 0;
+
+        i--
+
+    ) {
+
+        const obj =
+
+        objects[i];
+
+        if (
+
+            obj.type !== "text"
+
+        )
+
+            continue;
+
+        ctx.font =
+
+        "16px Arial";
+
+        const width =
+
+        ctx.measureText(
+
+            obj.text
+
+        ).width;
+
+        if (
+
+            x >= obj.x - 10 &&
+
+            x <= obj.x + width + 10 &&
+
+            y >= obj.y - 25 &&
+
+            y <= obj.y + 10
+
+        ) {
+
+            return obj;
+
+        }
+
+    }
+
+    return null;
+
+}
 
 /* RISANJE */
 
@@ -944,7 +976,7 @@ function redraw() {
 
     objects.forEach(
 
-        function(obj) {
+    function(obj) {
 
         ctx.save();
 
@@ -992,19 +1024,15 @@ function redraw() {
 
                 const x =
 
-                (obj.x1+obj.x2)/2;
+                (obj.x1 + obj.x2) / 2;
 
                 const y =
 
-                (obj.y1+obj.y2)/2;
+                (obj.y1 + obj.y2) / 2;
 
                 ctx.font =
 
                 "16px Arial";
-
-                ctx.fillStyle =
-
-                "white";
 
                 const width =
 
@@ -1014,15 +1042,19 @@ function redraw() {
 
                 ).width;
 
+                ctx.fillStyle =
+
+                "white";
+
                 ctx.fillRect(
 
-                    x-width/2-4,
+                    x-width/2-5,
 
-                    y-18,
+                    y-20,
 
-                    width+8,
+                    width+10,
 
-                    23
+                    25
 
                 );
 
@@ -1084,7 +1116,7 @@ function saveHistory() {
 
 }
 
-/* RAZVELJAVI */
+/* UNDO */
 
 function undo() {
 
@@ -1148,13 +1180,9 @@ function eraseObject(
 
     objects.forEach(
 
-        function(obj,i) {
+    function(obj,i) {
 
-        if (
-
-            !obj.x1
-
-        )
+        if (!obj.x1)
 
             return;
 
@@ -1190,25 +1218,47 @@ function eraseObject(
 
     });
 
-    if (index >= 0) {
+    /* tudi tekst */
 
-        saveHistory();
+    if (index < 0) {
 
-        objects.splice(
+        const text =
 
-            index,
+        findText(x,y);
 
-            1
+        if (text) {
 
-        );
+            saveHistory();
 
-        redraw();
+            const i =
+
+            objects.indexOf(text);
+
+            objects.splice(i,1);
+
+            redraw();
+
+        }
+
+        return;
 
     }
 
+    saveHistory();
+
+    objects.splice(
+
+        index,
+
+        1
+
+    );
+
+    redraw();
+
 }
 
-/* RAZDALJA */
+/* RAZDALJA DO ČRTE */
 
 function pointLineDistance(
 
@@ -1279,6 +1329,32 @@ function pointLineDistance(
         (py-yy)**2
 
     );
+
+}
+
+/* SHRANI SLIKO */
+
+function saveImage() {
+
+    redraw();
+
+    const link =
+
+    document.createElement("a");
+
+    link.download =
+
+    "skica.png";
+
+    link.href =
+
+    canvas.toDataURL(
+
+        "image/png"
+
+    );
+
+    link.click();
 
 }
 
