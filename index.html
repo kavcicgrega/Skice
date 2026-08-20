@@ -6,211 +6,281 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-
-content="width=device-width,
-
-initial-scale=1.0,
-
-maximum-scale=1.0,
-
-user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <title>SKICE</title>
 
 <style>
 
-* {
+*{box-sizing:border-box}
 
-    box-sizing: border-box;
+body{
 
-}
+    margin:0;
 
-body {
+    font-family:Arial,sans-serif;
 
-    margin: 0;
+    background:#eee;
 
-    font-family: Arial, sans-serif;
-
-    background: #eeeeee;
-
-    overflow: hidden;
+    overflow:hidden;
 
 }
 
-header {
+header{
 
-    height: 58px;
+    height:58px;
 
-    background: white;
+    background:white;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    justify-content: space-between;
+    justify-content:space-between;
 
-    padding: 0 8px;
+    padding:0 8px;
 
-    border-bottom: 1px solid #ccc;
-
-}
-
-header h2 {
-
-    margin: 0;
-
-    font-size: 18px;
+    border-bottom:1px solid #ccc;
 
 }
 
-button {
+header h2{
 
-    border: none;
+    margin:0;
 
-    background: #eeeeee;
-
-    border-radius: 10px;
-
-    padding: 9px 11px;
-
-    font-size: 14px;
+    font-size:18px;
 
 }
 
-button:active {
+button{
 
-    transform: scale(.96);
+    border:0;
 
-}
+    background:#eee;
 
-#canvas {
+    border-radius:10px;
 
-    display: block;
+    padding:9px 11px;
 
-    background: white;
-
-    width: 100vw;
-
-    height: calc(100vh - 135px);
-
-    touch-action: none;
+    font-size:14px;
 
 }
 
-.toolbar {
+button:active{
 
-    height: 77px;
-
-    background: white;
-
-    border-top: 1px solid #ccc;
-
-    display: flex;
-
-    justify-content: space-around;
-
-    align-items: center;
+    transform:scale(.96);
 
 }
 
-.tool {
+#canvas{
 
-    background: transparent;
+    display:block;
 
-    display: flex;
+    width:100vw;
 
-    flex-direction: column;
+    height:calc(100vh - 135px);
 
-    align-items: center;
+    background:white;
 
-    justify-content: center;
-
-    width: 65px;
-
-    height: 60px;
+    touch-action:none;
 
 }
 
-.tool span {
+.toolbar{
 
-    font-size: 23px;
+    height:77px;
 
-}
+    background:white;
 
-.tool small {
+    border-top:1px solid #ccc;
 
-    font-size: 11px;
+    display:flex;
 
-}
+    justify-content:space-around;
 
-.active {
+    align-items:center;
 
-    background: #dceaff;
-
-}
-
-.gridMenu {
-
-    position: fixed;
-
-    top: 65px;
-
-    right: 10px;
-
-    background: white;
-
-    border-radius: 14px;
-
-    padding: 12px;
-
-    box-shadow: 0 5px 25px rgba(0,0,0,.2);
-
-    display: none;
-
-    z-index: 20;
+    overflow-x:auto;
 
 }
 
-.gridMenu button {
+.tool{
 
-    display: block;
+    background:transparent;
 
-    width: 130px;
+    display:flex;
 
-    margin: 5px 0;
+    flex-direction:column;
 
-}
+    align-items:center;
 
-.info {
+    justify-content:center;
 
-    position: fixed;
+    min-width:62px;
 
-    top: 65px;
-
-    left: 10px;
-
-    background: rgba(0,0,0,.75);
-
-    color: white;
-
-    padding: 7px 10px;
-
-    border-radius: 12px;
-
-    font-size: 12px;
-
-    z-index: 10;
+    height:60px;
 
 }
 
-@media print {
+.tool span{
 
-    body {
+    font-size:22px;
 
-        background: white;
+}
 
-        overflow: visible;
+.tool small{
+
+    font-size:10px;
+
+}
+
+.active{
+
+    background:#dceaff;
+
+}
+
+.info{
+
+    position:fixed;
+
+    top:65px;
+
+    left:10px;
+
+    background:rgba(0,0,0,.75);
+
+    color:white;
+
+    padding:7px 10px;
+
+    border-radius:12px;
+
+    font-size:12px;
+
+    z-index:10;
+
+}
+
+.menu,
+
+.modal{
+
+    position:fixed;
+
+    z-index:50;
+
+    background:white;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 30px rgba(0,0,0,.25);
+
+}
+
+.menu{
+
+    top:60px;
+
+    right:8px;
+
+    width:190px;
+
+    padding:10px;
+
+    display:none;
+
+}
+
+.menu button{
+
+    width:100%;
+
+    margin:4px 0;
+
+    text-align:left;
+
+}
+
+.modal{
+
+    left:50%;
+
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:90%;
+
+    max-width:400px;
+
+    padding:18px;
+
+    display:none;
+
+}
+
+.modal h3{
+
+    margin-top:0;
+
+}
+
+.modal input{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    margin-bottom:12px;
+
+}
+
+.draft{
+
+    padding:12px;
+
+    border-bottom:1px solid #ddd;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.draftName{
+
+    font-size:16px;
+
+}
+
+.draftButtons button{
+
+    margin-left:4px;
+
+}
+
+.close{
+
+    background:#ddd;
+
+}
+
+@media print{
+
+    body{
+
+        overflow:visible;
+
+        background:white;
 
     }
 
@@ -218,19 +288,21 @@ button:active {
 
     .toolbar,
 
-    .gridMenu,
+    .menu,
 
-    .info {
+    .modal,
 
-        display: none;
+    .info{
+
+        display:none!important;
 
     }
 
-    #canvas {
+    #canvas{
 
-        width: 100%;
+        width:100%;
 
-        height: auto;
+        height:auto;
 
     }
 
@@ -246,17 +318,13 @@ button:active {
 
 <button onclick="newSketch()">＋</button>
 
-<h2>SKICE</h2>
+<h2 id="title">Nova skica</h2>
 
 <div>
 
-<button onclick="undo()">↩</button>
+<button onclick="openDrafts()">📁</button>
 
-<button onclick="openGridMenu()">▦</button>
-
-<button onclick="saveImage()">📷</button>
-
-<button onclick="printSketch()">🖨</button>
+<button onclick="openMenu()">☰</button>
 
 </div>
 
@@ -268,7 +336,41 @@ Mreža: 10 cm
 
 </div>
 
-<div class="gridMenu" id="gridMenu">
+<div class="menu" id="menu">
+
+<button onclick="saveDraft()">
+
+💾 Shrani osnutek
+
+</button>
+
+<button onclick="saveAsNew()">
+
+📋 Shrani kot novo
+
+</button>
+
+<button onclick="saveImage()">
+
+📷 Shrani sliko
+
+</button>
+
+<button onclick="printSketch()">
+
+🖨️ Tisk / PDF
+
+</button>
+
+<button onclick="openGridMenu()">
+
+▦ Nastavitve mreže
+
+</button>
+
+</div>
+
+<div class="menu" id="gridMenu">
 
 <b>Razmik mreže</b>
 
@@ -290,6 +392,48 @@ Mreža ON / OFF
 
 </div>
 
+<div class="modal" id="draftModal">
+
+<h3>Osnutki</h3>
+
+<div id="draftList"></div>
+
+<br>
+
+<button class="close" onclick="closeDrafts()">
+
+Zapri
+
+</button>
+
+</div>
+
+<div class="modal" id="nameModal">
+
+<h3>Ime osnutka</h3>
+
+<input
+
+id="draftNameInput"
+
+placeholder="npr. Streha Novak"
+
+>
+
+<button onclick="confirmSave()">
+
+Shrani
+
+</button>
+
+<button class="close" onclick="closeNameModal()">
+
+Prekliči
+
+</button>
+
+</div>
+
 <canvas id="canvas"></canvas>
 
 <div class="toolbar">
@@ -300,7 +444,7 @@ onclick="selectTool('line',this)">
 
 <span>╱</span>
 
-Črta
+<small>Črta</small>
 
 </button>
 
@@ -310,7 +454,7 @@ onclick="selectTool('measure',this)">
 
 <span>↔</span>
 
-Mera
+<small>Mera</small>
 
 </button>
 
@@ -320,7 +464,7 @@ onclick="selectTool('angle',this)">
 
 <span>∠</span>
 
-Kot
+<small>Kot</small>
 
 </button>
 
@@ -330,7 +474,7 @@ onclick="selectTool('text',this)">
 
 <span>T</span>
 
-Besedilo
+<small>Besedilo</small>
 
 </button>
 
@@ -340,7 +484,7 @@ onclick="selectTool('move',this)">
 
 <span>✋</span>
 
-Premakni
+<small>Premakni</small>
 
 </button>
 
@@ -350,7 +494,7 @@ onclick="selectTool('erase',this)">
 
 <span>⌫</span>
 
-Izbriši
+<small>Izbriši</small>
 
 </button>
 
@@ -358,67 +502,55 @@ Izbriši
 
 <script>
 
-const canvas =
+const canvas=document.getElementById("canvas");
 
-document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
 
-const ctx =
+let tool="line";
 
-canvas.getContext("2d");
+let drawing=false;
 
-let tool = "line";
+let moving=false;
 
-let drawing = false;
+let movingObject=null;
 
-let moving = false;
+let startX=0;
 
-let movingObject = null;
+let startY=0;
 
-let offsetX = 0;
+let offsetX=0;
 
-let offsetY = 0;
+let offsetY=0;
 
-let startX = 0;
+let gridSize=40;
 
-let startY = 0;
+let gridVisible=true;
 
-let gridSize = 40;
+let objects=[];
 
-let gridVisible = true;
+let history=[];
 
-let objects = [];
+let currentDraftId=null;
 
-let history = [];
+let currentDraftName="";
 
 /* CANVAS */
 
-function resizeCanvas() {
+function resizeCanvas(){
 
-    const rect =
+    const r=canvas.getBoundingClientRect();
 
-    canvas.getBoundingClientRect();
+    canvas.width=r.width*devicePixelRatio;
 
-    canvas.width =
-
-    rect.width * devicePixelRatio;
-
-    canvas.height =
-
-    rect.height * devicePixelRatio;
+    canvas.height=r.height*devicePixelRatio;
 
     ctx.setTransform(
 
-        devicePixelRatio,
+        devicePixelRatio,0,
 
-        0,
+        0,devicePixelRatio,
 
-        0,
-
-        devicePixelRatio,
-
-        0,
-
-        0
+        0,0
 
     );
 
@@ -426,71 +558,45 @@ function resizeCanvas() {
 
 }
 
-window.addEventListener(
-
-    "resize",
-
-    resizeCanvas
-
-);
+window.addEventListener("resize",resizeCanvas);
 
 resizeCanvas();
 
-/* MREŽA */
+/* GRID */
 
-function drawGrid() {
+function drawGrid(){
 
-    if (!gridVisible) return;
+    if(!gridVisible)return;
 
-    const width =
+    const w=canvas.clientWidth;
 
-    canvas.clientWidth;
-
-    const height =
-
-    canvas.clientHeight;
+    const h=canvas.clientHeight;
 
     ctx.save();
 
-    ctx.strokeStyle = "#e4e4e4";
+    ctx.strokeStyle="#e4e4e4";
 
-    ctx.lineWidth = 1;
+    ctx.lineWidth=1;
 
-    for (
-
-        let x = 0;
-
-        x <= width;
-
-        x += gridSize
-
-    ) {
+    for(let x=0;x<=w;x+=gridSize){
 
         ctx.beginPath();
 
         ctx.moveTo(x,0);
 
-        ctx.lineTo(x,height);
+        ctx.lineTo(x,h);
 
         ctx.stroke();
 
     }
 
-    for (
-
-        let y = 0;
-
-        y <= height;
-
-        y += gridSize
-
-    ) {
+    for(let y=0;y<=h;y+=gridSize){
 
         ctx.beginPath();
 
         ctx.moveTo(0,y);
 
-        ctx.lineTo(width,y);
+        ctx.lineTo(w,y);
 
         ctx.stroke();
 
@@ -502,111 +608,105 @@ function drawGrid() {
 
 /* SNAP */
 
-function snap(value) {
+function snap(v){
 
-    if (!gridVisible)
+    if(!gridVisible)return v;
 
-        return value;
-
-    return Math.round(
-
-        value / gridSize
-
-    ) * gridSize;
+    return Math.round(v/gridSize)*gridSize;
 
 }
 
-/* ORODJE */
+/* TOOL */
 
-function selectTool(
+function selectTool(t,b){
 
-    selected,
+    tool=t;
 
-    button
+    document.querySelectorAll(".tool")
 
-) {
+    .forEach(x=>x.classList.remove("active"));
 
-    tool = selected;
-
-    document
-
-    .querySelectorAll(".tool")
-
-    .forEach(
-
-        b => b.classList.remove("active")
-
-    );
-
-    button.classList.add("active");
+    b.classList.add("active");
 
 }
 
-/* MENI MREŽE */
+/* MENUS */
 
-function openGridMenu() {
+function openMenu(){
 
-    const menu =
+    const m=document.getElementById("menu");
 
-    document.getElementById("gridMenu");
+    m.style.display=
 
-    menu.style.display =
+        m.style.display==="block"
 
-    menu.style.display === "block"
+        ?"none"
 
-    ? "none"
-
-    : "block";
+        :"block";
 
 }
 
-function setGrid(value) {
+function openGridMenu(){
 
-    gridSize =
+    document.getElementById("menu")
 
-    value * 4;
+    .style.display="none";
+
+    const m=document.getElementById("gridMenu");
+
+    m.style.display=
+
+        m.style.display==="block"
+
+        ?"none"
+
+        :"block";
+
+}
+
+function setGrid(v){
+
+    gridSize=v*4;
 
     document.getElementById("info")
 
-    .innerText =
-
-    "Mreža: " + value + " cm";
+    .innerText="Mreža: "+v+" cm";
 
     document.getElementById("gridMenu")
 
-    .style.display = "none";
+    .style.display="none";
 
     redraw();
 
+    autoSave();
+
 }
 
-function toggleGrid() {
+function toggleGrid(){
 
-    gridVisible =
-
-    !gridVisible;
+    gridVisible=!gridVisible;
 
     document.getElementById("gridMenu")
 
-    .style.display = "none";
+    .style.display="none";
 
     redraw();
 
+    autoSave();
+
 }
 
-/* POZICIJA */
+/* POSITION */
 
-function getPosition(e) {
+function pos(e){
 
-    const rect =
+    const r=canvas.getBoundingClientRect();
 
-    canvas.getBoundingClientRect();
+    return{
 
-    return {
+        x:e.clientX-r.left,
 
-        x: e.clientX - rect.left,
-
-        y: e.clientY - rect.top
+        y:e.clientY-r.top
 
     };
 
@@ -614,73 +714,61 @@ function getPosition(e) {
 
 /* POINTER DOWN */
 
-canvas.addEventListener(
-
-"pointerdown",
-
-function(e) {
+canvas.addEventListener("pointerdown",function(e){
 
     e.preventDefault();
 
-    const p =
+    const p=pos(e);
 
-    getPosition(e);
+    /* TEXT */
 
-    /* BESEDILO */
+    if(tool==="text"){
 
-    if (tool === "text") {
+        const text=prompt("Vpiši besedilo:");
 
-        const text =
-
-        prompt("Vpiši besedilo:");
-
-        if (text) {
+        if(text){
 
             saveHistory();
 
             objects.push({
 
-                type: "text",
+                type:"text",
 
-                x: snap(p.x),
+                x:snap(p.x),
 
-                y: snap(p.y),
+                y:snap(p.y),
 
-                text: text
+                text:text
 
             });
 
             redraw();
 
+            autoSave();
+
         }
 
         return;
 
     }
 
-    /* PREMIKANJE */
+    /* MOVE */
 
-    if (tool === "move") {
+    if(tool==="move"){
 
-        const object =
+        const obj=findText(p.x,p.y);
 
-        findText(p.x,p.y);
-
-        if (object) {
+        if(obj){
 
             saveHistory();
 
-            moving = true;
+            moving=true;
 
-            movingObject = object;
+            movingObject=obj;
 
-            offsetX =
+            offsetX=p.x-obj.x;
 
-            p.x - object.x;
-
-            offsetY =
-
-            p.y - object.y;
+            offsetY=p.y-obj.y;
 
         }
 
@@ -688,61 +776,41 @@ function(e) {
 
     }
 
-    /* BRISANJE */
+    /* ERASE */
 
-    if (tool === "erase") {
+    if(tool==="erase"){
 
-        eraseObject(
-
-            p.x,
-
-            p.y
-
-        );
+        eraseObject(p.x,p.y);
 
         return;
 
     }
 
-    drawing = true;
+    drawing=true;
 
-    startX = snap(p.x);
+    startX=snap(p.x);
 
-    startY = snap(p.y);
+    startY=snap(p.y);
 
 });
 
 /* POINTER MOVE */
 
-canvas.addEventListener(
-
-"pointermove",
-
-function(e) {
+canvas.addEventListener("pointermove",function(e){
 
     e.preventDefault();
 
-    const p =
+    const p=pos(e);
 
-    getPosition(e);
+    if(moving && movingObject){
 
-    /* PREMIKANJE TEKSTA */
+        movingObject.x=
 
-    if (
+            snap(p.x-offsetX);
 
-        moving &&
+        movingObject.y=
 
-        movingObject
-
-    ) {
-
-        movingObject.x =
-
-        snap(p.x - offsetX);
-
-        movingObject.y =
-
-        snap(p.y - offsetY);
+            snap(p.y-offsetY);
 
         redraw();
 
@@ -750,53 +818,27 @@ function(e) {
 
     }
 
-    if (!drawing)
+    if(!drawing)return;
 
-        return;
+    const x=snap(p.x);
 
-    const x =
-
-    snap(p.x);
-
-    const y =
-
-    snap(p.y);
+    const y=snap(p.y);
 
     redraw();
 
     ctx.save();
 
-    ctx.strokeStyle =
+    ctx.strokeStyle="#555";
 
-    "#555";
+    ctx.lineWidth=2;
 
-    ctx.lineWidth = 2;
-
-    ctx.setLineDash([
-
-        6,
-
-        5
-
-    ]);
+    ctx.setLineDash([6,5]);
 
     ctx.beginPath();
 
-    ctx.moveTo(
+    ctx.moveTo(startX,startY);
 
-        startX,
-
-        startY
-
-    );
-
-    ctx.lineTo(
-
-        x,
-
-        y
-
-    );
+    ctx.lineTo(x,y);
 
     ctx.stroke();
 
@@ -806,17 +848,15 @@ function(e) {
 
 /* POINTER UP */
 
-canvas.addEventListener(
+canvas.addEventListener("pointerup",function(e){
 
-"pointerup",
+    if(moving){
 
-function(e) {
+        moving=false;
 
-    if (moving) {
+        movingObject=null;
 
-        moving = false;
-
-        movingObject = null;
+        autoSave();
 
         redraw();
 
@@ -824,129 +864,97 @@ function(e) {
 
     }
 
-    if (!drawing)
+    if(!drawing)return;
 
-        return;
+    drawing=false;
 
-    drawing = false;
+    const p=pos(e);
 
-    const p =
+    const endX=snap(p.x);
 
-    getPosition(e);
+    const endY=snap(p.y);
 
-    const endX =
-
-    snap(p.x);
-
-    const endY =
-
-    snap(p.y);
-
-    if (
+    if(
 
         Math.abs(endX-startX)<5 &&
 
         Math.abs(endY-startY)<5
 
-    )
-
-        return;
+    )return;
 
     saveHistory();
 
-    let label = "";
+    let label="";
 
-    /* MERA */
+    if(tool==="measure"){
 
-    if (tool === "measure") {
-
-        label =
-
-        prompt("Vpiši mero:");
+        label=prompt("Vpiši mero:");
 
     }
 
-    /* KOT */
+    if(tool==="angle"){
 
-    if (tool === "angle") {
-
-        label =
-
-        prompt("Vpiši kot:");
+        label=prompt("Vpiši kot:");
 
     }
 
     objects.push({
 
-        type: tool,
+        type:tool,
 
-        x1: startX,
+        x1:startX,
 
-        y1: startY,
+        y1:startY,
 
-        x2: endX,
+        x2:endX,
 
-        y2: endY,
+        y2:endY,
 
-        label: label || ""
+        label:label||""
 
     });
 
     redraw();
 
+    autoSave();
+
 });
 
-/* ISKANJE TEKSTA */
+/* FIND TEXT */
 
-function findText(x,y) {
+function findText(x,y){
 
-    for (
+    for(
 
-        let i = objects.length - 1;
+        let i=objects.length-1;
 
-        i >= 0;
+        i>=0;
 
         i--
 
-    ) {
+    ){
 
-        const obj =
+        const o=objects[i];
 
-        objects[i];
+        if(o.type!=="text")continue;
 
-        if (
+        ctx.font="16px Arial";
 
-            obj.type !== "text"
+        const w=ctx.measureText(o.text).width;
 
-        )
+        if(
 
-            continue;
+            x>=o.x-10 &&
 
-        ctx.font =
+            x<=o.x+w+10 &&
 
-        "16px Arial";
+            y>=o.y-25 &&
 
-        const width =
+            y<=o.y+10
 
-        ctx.measureText(
+        ){
 
-            obj.text
-
-        ).width;
-
-        if (
-
-            x >= obj.x - 10 &&
-
-            x <= obj.x + width + 10 &&
-
-            y >= obj.y - 25 &&
-
-            y <= obj.y + 10
-
-        ) {
-
-            return obj;
+            return o;
 
         }
 
@@ -956,9 +964,9 @@ function findText(x,y) {
 
 }
 
-/* RISANJE */
+/* REDRAW */
 
-function redraw() {
+function redraw(){
 
     ctx.clearRect(
 
@@ -974,99 +982,67 @@ function redraw() {
 
     drawGrid();
 
-    objects.forEach(
-
-    function(obj) {
+    objects.forEach(o=>{
 
         ctx.save();
 
-        ctx.strokeStyle =
+        ctx.strokeStyle="#111";
 
-        "#111";
+        ctx.fillStyle="#111";
 
-        ctx.fillStyle =
+        ctx.lineWidth=2;
 
-        "#111";
+        if(
 
-        ctx.lineWidth = 2;
+            o.type==="line" ||
 
-        if (
+            o.type==="measure" ||
 
-            obj.type === "line" ||
+            o.type==="angle"
 
-            obj.type === "measure" ||
-
-            obj.type === "angle"
-
-        ) {
+        ){
 
             ctx.beginPath();
 
-            ctx.moveTo(
+            ctx.moveTo(o.x1,o.y1);
 
-                obj.x1,
-
-                obj.y1
-
-            );
-
-            ctx.lineTo(
-
-                obj.x2,
-
-                obj.y2
-
-            );
+            ctx.lineTo(o.x2,o.y2);
 
             ctx.stroke();
 
-            if (obj.label) {
+            if(o.label){
 
-                const x =
+                const x=(o.x1+o.x2)/2;
 
-                (obj.x1 + obj.x2) / 2;
+                const y=(o.y1+o.y2)/2;
 
-                const y =
+                ctx.font="16px Arial";
 
-                (obj.y1 + obj.y2) / 2;
+                const w=
 
-                ctx.font =
+                    ctx.measureText(o.label).width;
 
-                "16px Arial";
-
-                const width =
-
-                ctx.measureText(
-
-                    obj.label
-
-                ).width;
-
-                ctx.fillStyle =
-
-                "white";
+                ctx.fillStyle="white";
 
                 ctx.fillRect(
 
-                    x-width/2-5,
+                    x-w/2-5,
 
                     y-20,
 
-                    width+10,
+                    w+10,
 
                     25
 
                 );
 
-                ctx.fillStyle =
-
-                "#111";
+                ctx.fillStyle="#111";
 
                 ctx.fillText(
 
-                    obj.label,
+                    o.label,
 
-                    x-width/2,
+                    x-w/2,
 
                     y-2
 
@@ -1076,23 +1052,17 @@ function redraw() {
 
         }
 
-        if (
+        if(o.type==="text"){
 
-            obj.type === "text"
-
-        ) {
-
-            ctx.font =
-
-            "16px Arial";
+            ctx.font="16px Arial";
 
             ctx.fillText(
 
-                obj.text,
+                o.text,
 
-                obj.x,
+                o.x,
 
-                obj.y
+                o.y
 
             );
 
@@ -1104,9 +1074,9 @@ function redraw() {
 
 }
 
-/* ZGODOVINA */
+/* HISTORY */
 
-function saveHistory() {
+function saveHistory(){
 
     history.push(
 
@@ -1116,127 +1086,97 @@ function saveHistory() {
 
 }
 
-/* UNDO */
+function undo(){
 
-function undo() {
+    if(!history.length)return;
 
-    if (
+    objects=
 
-        history.length === 0
+        JSON.parse(history.pop());
 
-    )
+    redraw();
+
+    autoSave();
+
+}
+
+/* NEW */
+
+function newSketch(){
+
+    if(!confirm("Izbrišem trenutno skico?"))
 
         return;
 
-    objects =
+    objects=[];
 
-    JSON.parse(
+    history=[];
 
-        history.pop()
+    currentDraftId=null;
 
-    );
+    currentDraftName="";
+
+    document.getElementById("title")
+
+        .innerText="Nova skica";
 
     redraw();
 
 }
 
-/* NOVA SKICA */
+/* ERASE */
 
-function newSketch() {
+function eraseObject(x,y){
 
-    if (
+    let index=-1;
 
-        !confirm(
+    let closest=20;
 
-            "Izbrišem trenutno skico?"
+    objects.forEach((o,i)=>{
 
-        )
+        if(!o.x1)return;
 
-    )
+        const d=
 
-        return;
+            pointLineDistance(
 
-    saveHistory();
+                x,y,
 
-    objects = [];
+                o.x1,o.y1,
 
-    redraw();
+                o.x2,o.y2
 
-}
+            );
 
-/* BRISANJE */
+        if(d<closest){
 
-function eraseObject(
+            closest=d;
 
-    x,
-
-    y
-
-) {
-
-    let index = -1;
-
-    let closest = 20;
-
-    objects.forEach(
-
-    function(obj,i) {
-
-        if (!obj.x1)
-
-            return;
-
-        const d =
-
-        pointLineDistance(
-
-            x,
-
-            y,
-
-            obj.x1,
-
-            obj.y1,
-
-            obj.x2,
-
-            obj.y2
-
-        );
-
-        if (
-
-            d < closest
-
-        ) {
-
-            closest = d;
-
-            index = i;
+            index=i;
 
         }
 
     });
 
-    /* tudi tekst */
+    if(index<0){
 
-    if (index < 0) {
+        const t=findText(x,y);
 
-        const text =
-
-        findText(x,y);
-
-        if (text) {
+        if(t){
 
             saveHistory();
 
-            const i =
+            objects.splice(
 
-            objects.indexOf(text);
+                objects.indexOf(t),
 
-            objects.splice(i,1);
+                1
+
+            );
 
             redraw();
+
+            autoSave();
 
         }
 
@@ -1246,81 +1186,39 @@ function eraseObject(
 
     saveHistory();
 
-    objects.splice(
-
-        index,
-
-        1
-
-    );
+    objects.splice(index,1);
 
     redraw();
 
-}
+    autoSave();
 
-/* RAZDALJA DO ČRTE */
+}
 
 function pointLineDistance(
 
-    px,
+    px,py,x1,y1,x2,y2
 
-    py,
+){
 
-    x1,
+    const A=px-x1;
 
-    y1,
+    const B=py-y1;
 
-    x2,
+    const C=x2-x1;
 
-    y2
+    const D=y2-y1;
 
-) {
+    const dot=A*C+B*D;
 
-    const A =
+    const len=C*C+D*D;
 
-    px-x1;
+    let t=dot/len;
 
-    const B =
+    t=Math.max(0,Math.min(1,t));
 
-    py-y1;
+    const xx=x1+t*C;
 
-    const C =
-
-    x2-x1;
-
-    const D =
-
-    y2-y1;
-
-    const dot =
-
-    A*C+B*D;
-
-    const len =
-
-    C*C+D*D;
-
-    let t =
-
-    dot/len;
-
-    t =
-
-    Math.max(
-
-        0,
-
-        Math.min(1,t)
-
-    );
-
-    const xx =
-
-    x1+t*C;
-
-    const yy =
-
-    y1+t*D;
+    const yy=y1+t*D;
 
     return Math.sqrt(
 
@@ -1332,35 +1230,457 @@ function pointLineDistance(
 
 }
 
-/* SHRANI SLIKO */
+/* -------------------------
 
-function saveImage() {
+   OSNUTKI
+
+-------------------------- */
+
+function getDrafts(){
+
+    return JSON.parse(
+
+        localStorage.getItem("skiceDrafts")
+
+        || "[]"
+
+    );
+
+}
+
+function saveDraft(){
+
+    if(currentDraftId){
+
+        updateDraft();
+
+        return;
+
+    }
+
+    document.getElementById(
+
+        "draftNameInput"
+
+    ).value="";
+
+    document.getElementById(
+
+        "nameModal"
+
+    ).style.display="block";
+
+}
+
+function confirmSave(){
+
+    const name=
+
+        document.getElementById(
+
+            "draftNameInput"
+
+        ).value.trim();
+
+    if(!name){
+
+        alert("Vpiši ime osnutka.");
+
+        return;
+
+    }
+
+    const drafts=getDrafts();
+
+    const draft={
+
+        id:Date.now(),
+
+        name:name,
+
+        objects:objects,
+
+        gridSize:gridSize,
+
+        gridVisible:gridVisible,
+
+        updated:new Date().toISOString()
+
+    };
+
+    drafts.push(draft);
+
+    localStorage.setItem(
+
+        "skiceDrafts",
+
+        JSON.stringify(drafts)
+
+    );
+
+    currentDraftId=draft.id;
+
+    currentDraftName=name;
+
+    document.getElementById(
+
+        "title"
+
+    ).innerText=name;
+
+    closeNameModal();
+
+}
+
+function updateDraft(){
+
+    const drafts=getDrafts();
+
+    const index=
+
+        drafts.findIndex(
+
+            d=>d.id===currentDraftId
+
+        );
+
+    if(index<0)return;
+
+    drafts[index].objects=objects;
+
+    drafts[index].gridSize=gridSize;
+
+    drafts[index].gridVisible=gridVisible;
+
+    drafts[index].updated=
+
+        new Date().toISOString();
+
+    localStorage.setItem(
+
+        "skiceDrafts",
+
+        JSON.stringify(drafts)
+
+    );
+
+    alert("Osnutek je shranjen.");
+
+}
+
+function saveAsNew(){
+
+    currentDraftId=null;
+
+    currentDraftName="";
+
+    document.getElementById(
+
+        "draftNameInput"
+
+    ).value="";
+
+    document.getElementById(
+
+        "nameModal"
+
+    ).style.display="block";
+
+}
+
+function autoSave(){
+
+    if(!currentDraftId)return;
+
+    const drafts=getDrafts();
+
+    const index=
+
+        drafts.findIndex(
+
+            d=>d.id===currentDraftId
+
+        );
+
+    if(index<0)return;
+
+    drafts[index].objects=objects;
+
+    drafts[index].gridSize=gridSize;
+
+    drafts[index].gridVisible=gridVisible;
+
+    drafts[index].updated=
+
+        new Date().toISOString();
+
+    localStorage.setItem(
+
+        "skiceDrafts",
+
+        JSON.stringify(drafts)
+
+    );
+
+}
+
+/* OPEN DRAFTS */
+
+function openDrafts(){
+
+    renderDrafts();
+
+    document.getElementById(
+
+        "draftModal"
+
+    ).style.display="block";
+
+}
+
+function closeDrafts(){
+
+    document.getElementById(
+
+        "draftModal"
+
+    ).style.display="none";
+
+}
+
+function renderDrafts(){
+
+    const list=
+
+        document.getElementById(
+
+            "draftList"
+
+        );
+
+    const drafts=getDrafts();
+
+    if(!drafts.length){
+
+        list.innerHTML=
+
+            "<p>Še nimaš shranjenih osnutkov.</p>";
+
+        return;
+
+    }
+
+    list.innerHTML="";
+
+    drafts
+
+    .slice()
+
+    .reverse()
+
+    .forEach(d=>{
+
+        const div=
+
+            document.createElement("div");
+
+        div.className="draft";
+
+        const name=
+
+            document.createElement("div");
+
+        name.className="draftName";
+
+        name.innerText=
+
+            "📄 "+d.name;
+
+        const buttons=
+
+            document.createElement("div");
+
+        buttons.className="draftButtons";
+
+        const open=
+
+            document.createElement("button");
+
+        open.innerText="Odpri";
+
+        open.onclick=
+
+            ()=>openDraft(d.id);
+
+        const del=
+
+            document.createElement("button");
+
+        del.innerText="🗑️";
+
+        del.onclick=
+
+            ()=>deleteDraft(d.id);
+
+        buttons.appendChild(open);
+
+        buttons.appendChild(del);
+
+        div.appendChild(name);
+
+        div.appendChild(buttons);
+
+        list.appendChild(div);
+
+    });
+
+}
+
+function openDraft(id){
+
+    const drafts=getDrafts();
+
+    const d=
+
+        drafts.find(
+
+            x=>x.id===id
+
+        );
+
+    if(!d)return;
+
+    objects=
+
+        JSON.parse(
+
+            JSON.stringify(d.objects)
+
+        );
+
+    gridSize=d.gridSize || 40;
+
+    gridVisible=
+
+        d.gridVisible !== false;
+
+    currentDraftId=d.id;
+
+    currentDraftName=d.name;
+
+    document.getElementById(
+
+        "title"
+
+    ).innerText=d.name;
+
+    document.getElementById(
+
+        "info"
+
+    ).innerText=
+
+        "Mreža: "+
+
+        (gridSize/4)+
+
+        " cm";
+
+    closeDrafts();
 
     redraw();
 
-    const link =
+}
 
-    document.createElement("a");
+function deleteDraft(id){
 
-    link.download =
+    if(
 
-    "skica.png";
+        !confirm(
 
-    link.href =
+            "Res želiš izbrisati ta osnutek?"
 
-    canvas.toDataURL(
+        )
 
-        "image/png"
+    )return;
+
+    let drafts=getDrafts();
+
+    drafts=
+
+        drafts.filter(
+
+            d=>d.id!==id
+
+        );
+
+    localStorage.setItem(
+
+        "skiceDrafts",
+
+        JSON.stringify(drafts)
 
     );
+
+    if(currentDraftId===id){
+
+        currentDraftId=null;
+
+        currentDraftName="";
+
+        document.getElementById(
+
+            "title"
+
+        ).innerText="Nova skica";
+
+    }
+
+    renderDrafts();
+
+}
+
+function closeNameModal(){
+
+    document.getElementById(
+
+        "nameModal"
+
+    ).style.display="none";
+
+}
+
+/* IMAGE */
+
+function saveImage(){
+
+    redraw();
+
+    const link=
+
+        document.createElement("a");
+
+    link.download=
+
+        (currentDraftName || "skica")
+
+        +".png";
+
+    link.href=
+
+        canvas.toDataURL(
+
+            "image/png"
+
+        );
 
     link.click();
 
 }
 
-/* TISK */
+/* PRINT */
 
-function printSketch() {
+function printSketch(){
 
     window.print();
 
